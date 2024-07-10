@@ -594,9 +594,6 @@ public class NetworkTypeController extends StateMachine {
                             log("Reset timers since physical channel config indications are off.");
                         }
                         resetAllTimers();
-                        mRatchetedNrBands.clear();
-                        mRatchetedNrBandwidths = 0;
-                        mLastAnchorNrCellId = PhysicalChannelConfig.PHYSICAL_CELL_ID_UNKNOWN;
                     }
                     transitionToCurrentState();
                     break;
@@ -1363,6 +1360,8 @@ public class NetworkTypeController extends StateMachine {
             return false;
         }
 
+        // Check if meeting minimum bandwidth requirement. For most carriers, there is no minimum
+        // bandwidth requirement and mNrAdvancedThresholdBandwidth is 0.
         if (mNrAdvancedThresholdBandwidth > 0
                 && mRatchetedNrBandwidths < mNrAdvancedThresholdBandwidth) {
             if (DBG) {
